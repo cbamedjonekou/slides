@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>WoF Language Model</title>
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
@@ -21,12 +21,194 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+
+		<!-- link to MathJax New Delimiters, Inline Mode -->
+		<script>
+			MathJax = {
+				tex: {
+				inlineMath: [['$', '$'], ['\\(', '\\)'], ['\\{', '\\}']]
+				},
+				svg: {
+				fontCache: 'global'
+				}
+			};
+		</script>
+		<script type="text/javascript" id="MathJax-script" async
+			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+		</script>
+	
+	
+		<!-- link to MathJax LaTex CDN -->
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+
+				<!-- Cover Slide and TOC -->
+				<section>
+					<section><h1>Language Modeling w/ WoF</h1></section>
+					<section>
+							<div id="Table-of-Contents">
+								<h3 id="Contents">Contents</h3>
+								<ol>
+									<li><a href="#Abstract">Abstract</a></li>
+									<li><a href="#Prerequisites">Prerequisites</a>
+										<ul>
+											<li><a href="#keywords">Guiding the Conversation -- Important Keywords</a></li>
+										</ul>
+									</li>
+									<li><a href="#Introduction">Getting Started</a>
+										<ul>
+											<li><a href="#Packages">Packages</a></li>
+										</ul>
+									</li>
+									<li><a href="#EDA">Exploring our text</a>
+										<ul>
+											<li><a href="#text-length">What's the text length - in characters?</a></li>
+											<li><a href="#unique-letters">The unique letters in our text</a></li>
+											<li><a href="#letter-frequency">Letter Frequency</a>
+												<ul>
+													<li><a href="#1st-order-approx">$1$-$st$ Order Approximations</a></li>
+												</ul>
+											</li>
+											<li><a href="#2nd-order-approx">$2$-$nd$ Order Approximations</a></li>
+											<li><a href="#3rd-order-approx">$3$-$rd$ Order Approximations</a></li>
+											<li><a href="#1st-order-word">$1$-$st$ Order Word Approximations</a></li>
+											<li><a href="#NLTK">Using NLTK to get Parts of Speech</a></li>
+											<li></li>
+										</ul>
+									</li>
+								</ol>
+							</div>
+					</section>
+				</section>
+
+				<!-- Abstract Slide -->
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							<h2 id="Abstract">Abstract</h2>
+							<p>
+								For this project, we set out to create a model that describes solving Wheel of 
+								Fortune Bonus Round Puzzles using NLP methods. Wheel of Fortune is a game show 
+								that resembles Hangman - in that you have to guess letters in order to solve 
+								puzzles. The goal of the project was to implement the model in the form of a 
+								neural network. Python (including the NLTK module) was used to conduct the 
+								analysis - and model building. Various web technologies (including HTML, CSS, 
+								Javascript, D3) were used to build the visualizations. Ultimately, we were unable to 
+								produce a working model due to time constraints. I'll describe the process, why it 
+								failed -- and overall, why NLP is difficult.
+							</p>
+
+							<h3 id="keywords">Guiding the Conversation -- Important Keywords</h3>
+							<p>
+								Below are important and relevant keywords that I believe will help shape the conversation. 
+								I throw them at you now but I will define (and explain) them as they come up:
+							</p>
+
+							```sh
+								entropy, n-grams, unigrams, bigrams, trigrams, language models, POS-tagging, ergodic, stationary, Hidden Markov Model
+							```
+						</textarea>
+					</section>
+				</section>
+
+				<!-- Prerequisite Slide -->
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+								<h2 id="Prerequisites">Prerequisites</h2>
+
+								In order to build our model, we had to complete a few things.
+								
+								* The first thing was collect our data - Our data was on the web, so we use python -- and the `BeautifulSoup` module -- to scrape our data 
+								([HOW TO - found here](http://localhost:4000/blog/2019/09/25/Web-Scraping-Series-Web-Scraping-with-BeautifulSoup)). 
+									
+								* The next thing was to clean our data - We combined bonus round puzzle data that spanned approx. 28 years (1988-2016)  into a single table, 
+								and removed all irrelevant and/or unavailable data. What is left is a "clean" dataset that we began to analyze. The task was accomplished using the `pandas` 
+								python module ([HOW TO - found here](http://localhost:4000/blog/2019/09/25/Web-Scraping-Series-Web-Scraping-with-BeautifulSoup)).
+						</textarea>
+					</section>
+				</section>
+
+				<!-- Getting Started Slide -->
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							<h2 href="#Introduction">Getting Started</h2>
+
+							So how do we actually get started with exploring text data? Turns out that 
+							Claude Shannon - the father of Information Theory, for which all Stat NLP 
+							tasks take root (NLP is based in Info Theory) - asked a similar question. 
+							Through his work - Mathematical Theory of Communications (1948) - we learn 
+							how to create a description (or model) of language. 
+							
+							The first thing we should do is count the characters (or words) in the text. 
+							It's the first thing Shannon did when forming his model. 
+							It turns out there are many questions you can answer about the structure of 
+							language simply by developing counts for the characters in the text. 
+							The following are some of them:
+							
+							* Length of the text in terms of word count? In terms of character count?
+							* How many different types of words — or letters — appear in the text?
+							* The frequency of those unique tokens (words, letters)?
+							* The most common letters?
+							* The most common words?
+							
+							We'll answer them as we go along.
+						</textarea>
+					</section>
+
+					<!-- Packages Slide -->
+					<section data-markdown>
+						<textarea data-template>
+							<h2 id= "Packages">Packages</h2>
+
+							List of `python` imports used for this analysis
+							
+							
+							```python
+							# Package Imports being used to make things happen
+							import numpy as np
+							import pandas as pd
+							import matplotlib.pyplot as plt
+							import seaborn as sns
+							import string
+							from os import listdir
+							from os.path import isfile, join
+							
+							# Special methods/'magic' functions for the visualizations
+							sns.set()
+							%matplotlib inline
+							```
+							<aside class="notes">
+								But before we move forward, here's the list of `python` 
+								imports used for this analysis.
+							</aside>
+						</textarea>
+					</section>
+				</section>
+
+				<!-- Packages Slide -->
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							
+						</textarea>
+					</section>
+				</section>
+
+				<!-- Getting Started Slide -->
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							
+						</textarea>
+					</section>
+				</section>
+
 			</div>
 		</div>
 
