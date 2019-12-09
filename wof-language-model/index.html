@@ -135,18 +135,24 @@
 
 				<!-- Getting Started Slide -->
 				<section>
+					<!-- Sub Slide 1 - How to start?  -->
 					<section data-markdown>
 						<textarea data-template>
 							<h2 href="#Introduction">Getting Started</h2>
 
-							So how do we actually get started with exploring text data? Turns out that 
-							Claude Shannon - the father of Information Theory, for which all Stat NLP 
-							tasks take root (NLP is based in Info Theory) - asked a similar question. 
-							Through his work - Mathematical Theory of Communications (1948) - we learn 
-							how to create a description (or model) of language. 
+							<!-- Speaker Notes -->
+							<aside class="notes">
+								<b>1st Note:</b> So how do we actually get started with exploring text data? 
+								Turns out that Claude Shannon - the father of Information Theory, for which all 
+								Stat NLP tasks are based - asked a similar question. Through his work - Mathematical 
+								Theory of Communications (1948) - we learn how to create a description (or model) of language.
+								<br> 
+								<b>2nd Note:</b> It's the first thing Shannon did when forming his model.
+								<br>
+								<b>3rd Note:</b> <i>This is said after listing questions</i> - "We'll answer them as we go along". 
+							</aside>
 							
-							The first thing we should do is count the characters (or words) in the text. 
-							It's the first thing Shannon did when forming his model. 
+							The first thing we should do is count the characters (or words) in the text.
 							It turns out there are many questions you can answer about the structure of 
 							language simply by developing counts for the characters in the text. 
 							The following are some of them:
@@ -156,12 +162,10 @@
 							* The frequency of those unique tokens (words, letters)?
 							* The most common letters?
 							* The most common words?
-							
-							We'll answer them as we go along.
 						</textarea>
 					</section>
 
-					<!-- Packages Slide -->
+					<!-- Sub Slide 2 - Packages  -->
 					<section data-markdown>
 						<textarea data-template>
 							<h2 id= "Packages">Packages</h2>
@@ -183,6 +187,7 @@
 							sns.set()
 							%matplotlib inline
 							```
+							<!-- Speaker Notes -->
 							<aside class="notes">
 								But before we move forward, here's the list of `python` 
 								imports used for this analysis.
@@ -191,20 +196,165 @@
 					</section>
 				</section>
 
-				<!-- Packages Slide -->
+				<!-- Text Exploration Slide -->
 				<section>
 					<section data-markdown>
 						<textarea data-template>
-							
+							<h2 id="EDA">Exploring our Text</h2>
+
+							<!-- Speaker Notes -->
+							<aside class="notes">
+								From here on out we explore our data. We can start by answering the questions
+								we posed in the previous slides.  
+							</aside>
 						</textarea>
 					</section>
 				</section>
 
-				<!-- Getting Started Slide -->
+				<!-- Question - Character Length -->
+				<section>
+					<!-- Sub Slide 1 - We're talking about Character Length? -->
+					<section data-markdown>
+						<textarea data-template>
+							<h3 id="text-length">What's the text length - in characters?</h3>
+
+							The feature we're interested in - the `PUZZLE` column.
+							<!-- code -->
+							```python
+							WoF_DF['PUZZLE'].iloc[:10]
+							```
+							<!-- output -->
+							```python
+							0        OPEN YOUR EYES
+							1         LIZA MINNELLI
+							2       PUT ON THE SPOT
+							3           FIRST PRIZE
+							4           THE VATICAN
+							5    FLYING DOWN TO RIO
+							6            POGO STICK
+							7         YANKEE DOODLE
+							8       FINGER PAINTING
+							9            JOE NAMATH
+							Name: PUZZLE, dtype: object
+							```
+
+							`PUZZLE` column to string conversion - using the `.join()` method 
+							<!-- code -->
+							```python
+							# Step 1: Create a string of text representing all solved bonus round puzzles.
+							corpus = ''.join(WoF_DF['PUZZLE'])
+							```
+
+							Using the `len()` function to find the length of our string - Result: 33099 characters.
+							<!-- code -->
+							```python
+							len(corpus)
+							```
+							<!-- output -->
+							```python
+							33099
+							```
+
+							<!-- Speaker Notes -->
+							<aside class="notes">
+								<b>1st Note:</b> What's the first question we might want to answer? - <i>"What's the 
+								character length of our text?"</i>
+								<br>
+								<b>2nd Note:</b> So, what we're interested in is the `PUZZLE` column.
+								<br>
+								<b>3rd Note:</b> Here, are the first 10 elements
+								<br>
+								<b>4th Note:</b> We're going to have to take the `PUZZLE` column and convert it to a string 
+								(sequence of characters) using the `.join()` method for strings. 
+								<br>
+								<b>5th Note:</b> We can now use the `len()` function to find the length of our string - which is 33099 characters.
+							</aside>
+						</textarea>
+					</section>
+				</section>
+
+				<!-- Question - Unique Characters -->
 				<section>
 					<section data-markdown>
 						<textarea data-template>
+							<h3 id="unique-letters">What are the unique letters (and symbols) in our text?</h3>
+						
+							<!-- code -->
+							```python
+							# Creates an array containing each character in the corpus
+							corpus_index = np.array([char for char in corpus])
 							
+							# Finds/Returns an array of unique values
+							corpus_index = np.unique(corpus_index)
+							print('Unique Characters:\n\n',corpus_index)
+							print('\nAmount of Unique Characters:',corpus_index.size)
+							```
+							<!-- output -->
+							```python
+							Unique Characters:
+							
+								[' ' '&' "'" '-' '?' 'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H' 'I' 'J' 'K' 'L' 'M'
+								'N' 'O' 'P' 'Q' 'R' 'S' 'T' 'U' 'V' 'W' 'X' 'Y' 'Z']
+							
+							Amount of Unique Characters: 31
+							```
+							
+							<aside class="notes">
+								<b>1st Note:</b> Let's consider the next question - How many different types of letters (or symbols) 
+								appear in the text?
+								<br>
+								<b>2nd Note:</b> We expect this `corpus` to have all 26 letters of the alphabet in varying frequency. 
+								However, it's always good to check. First, we'll convert our list into a numpy array 
+								and use its `.unique()` method.
+								<br>
+								<b>3rd Note:</b> Just as we suspected; All 26 letters of the english alphabet appear as unique characters.  
+								We also have additional characters that we did not expect. The additional characters are mostly punctuation 
+								and whitespace, but we'll keep them for now since we don't know yet the significance of the punctuation/whitespace. 
+								Additionally, punctuation/whitespace is a significant part of English, so their value cannot be understated.		
+							</aside>
+						</textarea>
+					</section>
+				</section>
+
+				<!-- Question - Letter Frequency -->
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							<h3 id="letter-frequency">Letter Frequency - an important question?</h3>
+							<!-- code -->
+
+							Counter using a dictionary
+							
+							```python
+							# Makes a dictionary: Each character in the corpus index (unique characters in corpus)
+							# is a 'key' in the dictionary. Each value is initialized to zero
+							letter_counter = dict((character, 0) for character in corpus_index)
+							
+							# Begins the counting, adding 1 for each key match
+							for character in corpus:
+								letter_counter[character] += 1
+							
+							# Prints the result
+							print(letter_counter)
+							```
+							
+							The result of our count below:
+							
+							```python
+							{' ': 3171, '&': 18, "'": 41, '-': 65, '?': 1, 'A': 2490, 'B': 1072, 'C': 988, 'D': 1038, 'E': 2258, 'F': 926, 'G': 1308, 'H': 1393, 'I': 2396, 'J': 212, 'K': 722, 'L': 1086, 'M': 656, 'N': 1406, 'O': 2834, 'P': 1033, 'Q': 116, 'R': 1514, 'S': 1097, 'T': 1472, 'U': 1346, 'V': 492, 'W': 767, 'X': 117, 'Y': 926, 'Z': 138}
+							```
+							
+							* Importance of this question?  
+							<aside class="notes">
+								
+							</aside>
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+							<aside class="notes">
+
+							</aside>
 						</textarea>
 					</section>
 				</section>
