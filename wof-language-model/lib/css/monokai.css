@@ -5,8 +5,10 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .hljs {
   display: block;
   overflow-x: auto;
-  padding: 0.5em;
-  background: #272822;
+  padding: 0.8em;
+  border-radius: 0.7rem;
+  background-color: rgba(38, 149, 210, 0.1);
+  font-size: 1.1em;
   color: #ddd;
 }
 
