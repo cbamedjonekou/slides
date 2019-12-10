@@ -49,44 +49,11 @@
 				<!-- Cover Slide and TOC -->
 				<section>
 					<section><h1>Language Modeling w/ WoF</h1></section>
-					<section>
-							<div id="Table-of-Contents">
-								<h3 id="Contents">Contents</h3>
-								<ol>
-									<li><a href="#Abstract">Abstract</a></li>
-									<li><a href="#Prerequisites">Prerequisites</a>
-										<ul>
-											<li><a href="#keywords">Guiding the Conversation -- Important Keywords</a></li>
-										</ul>
-									</li>
-									<li><a href="#Introduction">Getting Started</a>
-										<ul>
-											<li><a href="#Packages">Packages</a></li>
-										</ul>
-									</li>
-									<li><a href="#EDA">Exploring our text</a>
-										<ul>
-											<li><a href="#text-length">What's the text length - in characters?</a></li>
-											<li><a href="#unique-letters">The unique letters in our text</a></li>
-											<li><a href="#letter-frequency">Letter Frequency</a>
-												<ul>
-													<li><a href="#1st-order-approx">$1$-$st$ Order Approximations</a></li>
-												</ul>
-											</li>
-											<li><a href="#2nd-order-approx">$2$-$nd$ Order Approximations</a></li>
-											<li><a href="#3rd-order-approx">$3$-$rd$ Order Approximations</a></li>
-											<li><a href="#1st-order-word">$1$-$st$ Order Word Approximations</a></li>
-											<li><a href="#NLTK">Using NLTK to get Parts of Speech</a></li>
-											<li></li>
-										</ul>
-									</li>
-								</ol>
-							</div>
-					</section>
 				</section>
 
-				<!-- Abstract Slide -->
+				<!-- Introductions -->
 				<section>
+					<!-- Abstract Slide -->
 					<section data-markdown>
 						<textarea data-template>
 							<h2 id="Abstract">Abstract</h2>
@@ -113,29 +80,24 @@
 							```
 						</textarea>
 					</section>
-				</section>
 
-				<!-- Prerequisite Slide -->
-				<section>
+					<!-- Prerequisite Slide -->
 					<section data-markdown>
 						<textarea data-template>
-								<h2 id="Prerequisites">Prerequisites</h2>
+							<h2 id="Prerequisites">Prerequisites</h2>
 
-								In order to build our model, we had to complete a few things.
+							In order to build our model, we had to complete a few things.
+							
+							* The first thing was collect our data - Our data was on the web, so we use python -- and the `BeautifulSoup` module -- to scrape our data 
+							([HOW TO - found here](http://localhost:4000/blog/2019/09/25/Web-Scraping-Series-Web-Scraping-with-BeautifulSoup)). 
 								
-								* The first thing was collect our data - Our data was on the web, so we use python -- and the `BeautifulSoup` module -- to scrape our data 
-								([HOW TO - found here](http://localhost:4000/blog/2019/09/25/Web-Scraping-Series-Web-Scraping-with-BeautifulSoup)). 
-									
-								* The next thing was to clean our data - We combined bonus round puzzle data that spanned approx. 28 years (1988-2016)  into a single table, 
-								and removed all irrelevant and/or unavailable data. What is left is a "clean" dataset that we began to analyze. The task was accomplished using the `pandas` 
-								python module ([HOW TO - found here](http://localhost:4000/blog/2019/09/25/Web-Scraping-Series-Web-Scraping-with-BeautifulSoup)).
+							* The next thing was to clean our data - We combined bonus round puzzle data that spanned approx. 28 years (1988-2016)  into a single table, 
+							and removed all irrelevant and/or unavailable data. What is left is a "clean" dataset that we began to analyze. The task was accomplished using the `pandas` 
+							python module ([HOW TO - found here](http://localhost:4000/blog/2019/09/25/Web-Scraping-Series-Web-Scraping-with-BeautifulSoup)).
 						</textarea>
 					</section>
-				</section>
 
-				<!-- Getting Started Slide -->
-				<section>
-					<!-- Sub Slide 1 - How to start?  -->
+					<!-- Getting Started  -->
 					<section data-markdown>
 						<textarea data-template>
 							<h2 href="#Introduction">Getting Started</h2>
@@ -165,7 +127,7 @@
 						</textarea>
 					</section>
 
-					<!-- Sub Slide 2 - Packages  -->
+					<!-- Packages  -->
 					<section data-markdown>
 						<textarea data-template>
 							<h2 id= "Packages">Packages</h2>
@@ -198,6 +160,7 @@
 
 				<!-- Text Exploration Slide -->
 				<section>
+					<!-- Text Exploration Slide -->
 					<section data-markdown>
 						<textarea data-template>
 							<h2 id="EDA">Exploring our Text</h2>
@@ -209,11 +172,8 @@
 							</aside>
 						</textarea>
 					</section>
-				</section>
 
-				<!-- Question - Character Length -->
-				<section>
-					<!-- Sub Slide 1 - We're talking about Character Length? -->
+					<!-- Question - Character Length -->
 					<section data-markdown>
 						<textarea data-template>
 							<h3 id="text-length">What's the text length - in characters?</h3>
@@ -271,10 +231,8 @@
 							</aside>
 						</textarea>
 					</section>
-				</section>
 
-				<!-- Question - Unique Characters -->
-				<section>
+					<!-- Question - Unique Characters -->
 					<section data-markdown>
 						<textarea data-template>
 							<h3 id="unique-letters">What are the unique letters (and symbols) in our text?</h3>
@@ -317,11 +275,8 @@
 							</aside>
 						</textarea>
 					</section>
-				</section>
 
-				<!-- Question - Letter Frequency -->
-				<section>
-					<!-- Sub Slide 1: Letter Frequency -->
+					<!-- Question - Letter Frequency -->
 					<section data-markdown>
 						<textarea data-template>
 							<h3 id="letter-frequency">Letter Frequency - an important question?</h3>
@@ -360,7 +315,7 @@
 						</textarea>
 					</section>
 
-					<!-- Sub Slide 2: Answering Importance -->
+					<!-- Answering why Letter Frequency is important -->
 					<section data-markdown>
 						<textarea data-template>
 							<h3>So, what's so important about letter frequency?</h3> 
@@ -435,7 +390,8 @@
 					{ src: 'plugin/notes/notes.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true },
 					{ src: 'https://d3js.org/d3.v4.min.js' },
-					{ src: 'node_modules/reveal.js-d3js/d3js.js' }
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'node_modules/reveal.js-menu/menu.js' }
 				]
 			});
 		</script>
