@@ -1,0 +1,50 @@
+{
+  "_from": "reveal.js-d3js",
+  "_id": "reveal.js-d3js@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-I71XY5vPGPdJY2EKgR3yL/SkBWA=",
+  "_location": "/reveal.js-d3js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "reveal.js-d3js",
+    "name": "reveal.js-d3js",
+    "escapedName": "reveal.js-d3js",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/reveal.js-d3js/-/reveal.js-d3js-1.0.0.tgz",
+  "_shasum": "23bd57639bcf18f74963610a811df22ff4a40560",
+  "_spec": "reveal.js-d3js",
+  "_where": "/Users/Chris/Documents/Programming_Practice/slides/wof-language-model",
+  "author": {
+    "name": "Joscha Legewie"
+  },
+  "bugs": {
+    "url": "https://github.com/jlegewie/reveal.js-d3js-plugin/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Add dynamic d3.js visualizations to your reveal.js presentations",
+  "homepage": "https://github.com/jlegewie/reveal.js-d3js-plugin#readme",
+  "keywords": [
+    "reveal",
+    "d3.js"
+  ],
+  "license": "MIT, Copyright (C) 2017 Joscha Legewie",
+  "name": "reveal.js-d3js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlegewie/reveal.js-d3js-plugin.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
