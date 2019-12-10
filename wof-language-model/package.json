@@ -42,6 +42,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "reveal.js-d3js": "^1.0.0"
+    "reveal.js-d3js": "^1.0.0",
+    "reveal.js-menu": "^1.2.0"
   }
 }
