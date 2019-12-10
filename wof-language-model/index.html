@@ -218,7 +218,7 @@
 						<textarea data-template>
 							<h3 id="text-length">What's the text length - in characters?</h3>
 
-							The feature we're interested in - the `PUZZLE` column.
+							The feature we're interested in - the `PUZZLE` column:
 							<!-- code -->
 							```python
 							WoF_DF['PUZZLE'].iloc[:10]
@@ -238,14 +238,14 @@
 							Name: PUZZLE, dtype: object
 							```
 
-							`PUZZLE` column to string conversion - using the `.join()` method 
+							`PUZZLE` column to string conversion - using the `.join()` method: 
 							<!-- code -->
 							```python
 							# Step 1: Create a string of text representing all solved bonus round puzzles.
 							corpus = ''.join(WoF_DF['PUZZLE'])
 							```
 
-							Using the `len()` function to find the length of our string - Result: 33099 characters.
+							Using the `len()` function to find the length of our string - Result: 33099 characters:
 							<!-- code -->
 							```python
 							len(corpus)
@@ -278,7 +278,8 @@
 					<section data-markdown>
 						<textarea data-template>
 							<h3 id="unique-letters">What are the unique letters (and symbols) in our text?</h3>
-						
+							
+							Finding the unique symbols - using `np.unique()`:
 							<!-- code -->
 							```python
 							# Creates an array containing each character in the corpus
@@ -289,6 +290,8 @@
 							print('Unique Characters:\n\n',corpus_index)
 							print('\nAmount of Unique Characters:',corpus_index.size)
 							```
+
+							The result of our code:
 							<!-- output -->
 							```python
 							Unique Characters:
@@ -318,12 +321,13 @@
 
 				<!-- Question - Letter Frequency -->
 				<section>
+					<!-- Sub Slide 1: Letter Frequency -->
 					<section data-markdown>
 						<textarea data-template>
 							<h3 id="letter-frequency">Letter Frequency - an important question?</h3>
 							<!-- code -->
 
-							Counter using a dictionary
+							Counter using a dictionary:
 							
 							```python
 							# Makes a dictionary: Each character in the corpus index (unique characters in corpus)
@@ -343,25 +347,81 @@
 							```python
 							{' ': 3171, '&': 18, "'": 41, '-': 65, '?': 1, 'A': 2490, 'B': 1072, 'C': 988, 'D': 1038, 'E': 2258, 'F': 926, 'G': 1308, 'H': 1393, 'I': 2396, 'J': 212, 'K': 722, 'L': 1086, 'M': 656, 'N': 1406, 'O': 2834, 'P': 1033, 'Q': 116, 'R': 1514, 'S': 1097, 'T': 1472, 'U': 1346, 'V': 492, 'W': 767, 'X': 117, 'Y': 926, 'Z': 138}
 							```
-							
-							* Importance of this question?  
+							  
 							<aside class="notes">
-								
+								<b>1st Note:</b> Based on our results, looks like the letters `EAIOTR` (in no particular order) 
+								appear the most in our corpus.
+								<br>
+								<b>2nd Note:</b> This matches closely to the true frequency of letters in English text.
+								<br>
+								<b>3rd Note:</b> Whitespace also appears a lot. This makes sense since in most cases 
+								since whitespace indicates the beginning/end of a word.
 							</aside>
 						</textarea>
 					</section>
+
+					<!-- Sub Slide 2: Answering Importance -->
 					<section data-markdown>
 						<textarea data-template>
-							<aside class="notes">
+							<h3>So, what's so important about letter frequency?</h3> 
 
+							* By answering this question, we start to describe what Shannon calls a unigram.
+
+							<aside class="notes">
+								<b>1st Note:</b> So why is this question important?
+								<br>
+								<b>2nd Note:</b> By answering this question, we start describing what 
+								Shannon calls a unigram.
 							</aside>
 						</textarea>
 					</section>
 				</section>
 
+				<!-- Unigram - Letter Frequency -->
+				<section>
+					<!-- Sub Slide 1: Defining Language Model & Unigrams -->
+					<section data-markdown>
+						<textarea data-template>
+							<h2>unigrams?</h2>
+
+							[Shannon](https://en.wikipedia.org/wiki/Claude_Shannon) created language models that could be used to approximate
+							English text with the purpose of improving Electrical Communications. By finding the frequency distributed over all symbols - 'aka' 
+							their frequency distribution - we come out with a Unigram language model. For unigrams, we consider the letters 
+							to be independent from each other. We also call unigrams [First-Order Approximations of English text](http://people.seas.harvard.edu/~jones/cscie129/nu_lectures/lecture2/info%20theory/Info_Theory_5.html).
+						</textarea>
+					</section>
+
+					<!-- Sub Slide 2:  -->
+					<section data-markdown>
+						<textarea data-template>
+							<h3>Visualizing our Unigram Language Model</h3>
+
+							```python
+							# Separating the key/value pairs of our dictionary
+							letters = list(letter_counter.keys())
+							frequency = list(letter_counter.values())
+							
+							# Creating a dataframe called WoF_Letter_dist
+							wof_unigram_dist = pd.DataFrame.from_dict({'Symbol': letters,'Frequency': frequency})
+
+							# Sorts dataframe before plotting
+							wof_unigram_dist = wof_unigram_dist.sort_values(by= ['Frequency'], ascending= False)
+
+							# Exports to CSV
+							filepath = '/Users/Chris/Desktop/WoF Final Round Puzzles/WoF_unigram_ordered.csv'
+							exportTable(filepath, wof_unigram_dist)
+
+							# Plotting the distribution
+							sns.barplot(wof_unigram_dist['Symbol'], wof_unigram_dist['Frequency']/len(corpus))
+							```
+
+						</textarea>
+					</section>
+				</section>
 			</div>
 		</div>
 
+		<!-- Reveal.js Scripts -->
 		<script src="js/reveal.js"></script>
 
 		<script>
@@ -373,9 +433,25 @@
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'https://d3js.org/d3.v4.min.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' }
 				]
 			});
 		</script>
+
+		<!-- Code Toggle Script -->
+		<script>
+			function codeToggle() {
+				var x = document.getElementById("code-toggle");
+				if (x.style.display === "none") {
+				x.style.display = "block";
+				} else {
+				x.style.display = "none";
+				}
+			}
+		</script>
+
+
 	</body>
 </html>
