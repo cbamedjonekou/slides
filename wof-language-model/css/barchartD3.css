@@ -1,0 +1,11 @@
+body {
+    margin: 0px;
+    overflow: hidden;  
+}
+
+rect { fill: steelblue; }
+
+text {
+    font-size: 1.4em;
+    color: whitesmoke;
+}

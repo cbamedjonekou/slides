@@ -19,7 +19,9 @@ const render = (data) => {
     const innerWidth = width - margin['left'] - margin['right'];
     const innerHeight = height - margin['top'] - margin['bottom'];
 
-    const axis = d3.axisLeft();
+    // sets the bar color
+    const color = d3.scaleOrdinal()
+        .range(["#0E72D4", "#B03A2E", "#1ABC9C", "#F1C40F"]);
 
     // The linear scale - xScale is an instance - controlling width
     const xScale = d3.scaleLinear()
@@ -51,7 +53,8 @@ const render = (data) => {
         .enter().append('rect')
             .attr('y', d => yScale(yVal(d))) // ordinal values of data - the names of the Symbols
             .attr('width', d => xScale(xVal(d))) // width are values of Frequency
-            .attr('height', d => yScale.bandwidth()); // 
+            .attr('height', d => yScale.bandwidth())
+            .style("fill", (d, i) => { return color(i) } ); // 
 }
 
 // Reading in the dataset
