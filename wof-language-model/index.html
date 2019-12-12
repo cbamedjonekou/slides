@@ -327,7 +327,7 @@
 					<!-- Sub Slide 4: Visualizing Unigrams -->
 					<section class="fig-container"
 							data-fig-id="fig-barchart"
-							data-file="barchartD3.html"
+							data-file="html/barchartD3.html"
 							data-transitions="2">
 						<h2>Visualizing Unigrams</h2>
 
@@ -360,7 +360,7 @@
 					<!-- Sub Slide 6: Visualizing Bigrams -->
 					<section class="fig-container"
 							data-fig-id="fig-barchart"
-							data-file="barchartD3.html"
+							data-file="html/heatmapD3.html"
 							data-transitions="2">
 						<h2>Visualizing Bigrams</h2>
 
@@ -368,35 +368,43 @@
 						<code>EATION</code>, <code></code>, <code>whitespace</code>. Is this enough to 
 						optimally predict letters? Nope, still not enough.
 						<aside class="notes">
-							Bigram Frequency is a step of from Unigram Frequency but it's still not enough
+							Bigram Frequency is a step up from Unigram Frequency but it's still not enough
 							to optimally predict letters. We need to consider even more.
 						</aside>
 					</section>
 
-					<!-- Sub Slide 6: Unigram Visualization -->
+					<!-- Sub Slide 7: Defining Trigrams -->
 					<section data-markdown>
 						<textarea data-template>
-							<h3>Visualizing Unigrams - The Code</h3>
-
-							```python
-							# Separating the key/value pairs of our dictionary
-							letters = list(letter_counter.keys())
-							frequency = list(letter_counter.values())
+							<h3>Defining: $3 \text{nd}$ - Order ($n = 3$) Approx. of English Text</h3>
+						
+							$3$nd - Order Approximations of English Text are also called Trigrams. 
+							Trigrams also consider conditional probabilities - the previous 2 terms, however. 
 							
-							# Creating a dataframe called WoF_Letter_dist
-							wof_unigram_dist = pd.DataFrame.from_dict({'Symbol': letters,'Frequency': frequency})
+							<h5>Properties:</h5>
 
-							# Sorts dataframe before plotting
-							wof_unigram_dist = wof_unigram_dist.sort_values(by= ['Frequency'], ascending= False)
-
-							# Exports to CSV
-							filepath = '/Users/Chris/Desktop/WoF Final Round Puzzles/WoF_unigram_ordered.csv'
-							exportTable(filepath, wof_unigram_dist)
-
-							# Plotting the distribution
-							sns.barplot(wof_unigram_dist['Symbol'], wof_unigram_dist['Frequency']/len(corpus))
-							```
+							* The frequency of the characters in a sequence match still the frequency of 
+							characters in English Text, just like with uni- and bi- grams. 
+							* With trigrams, the next character in the sequence depends on the 
+							2 previous characters: $$P(W_n | W_{1}, W_{n-1})$$	
+	
 						</textarea>
+					</section>
+
+					<!-- Sub Slide 8: Visualizing Trigrams -->
+					<section class="fig-container"
+							data-fig-id="fig-barchart"
+							data-file="html/barchartD3.html"
+							data-transitions="2">
+						<h2>Visualizing Trigrams</h2>
+
+						By visualizing Trigrams, we are able to confirm the most frequent characters --
+						<code>EATION</code>, <code></code>, <code>whitespace</code>. Is this enough to 
+						optimally predict letters? I wish I could say `yes`.
+						<aside class="notes">
+							Trigram Frequency are even more of a step up versus uni- and bigram Frequencies but it's still not enough
+							to optimally predict letters. We need to consider even more.
+						</aside>
 					</section>
 				</section>
 
@@ -444,14 +452,14 @@
 					<!-- Tester slide 1 -->
 					<section data-markdown>
 						<script type="text/template">
-							<!-- .element: class="fig-container" data-fig-id="fig-barchart" data-file="barchartD3.html"-->
+							<!-- .element: class="fig-container" data-fig-id="fig-barchart" data-file="html/barchartD3.html"-->
 						</script>
 					</section>
 
 					<!-- Tester slide 2 -->
 					<section class="fig-container"
 							data-fig-id="fig-barchart"
-							data-file="barchartD3.html"
+							data-file="html/barchartD3.html"
 							data-transitions="2">
 						<h2>d3.js plugin for reveal.js</h2>
 
