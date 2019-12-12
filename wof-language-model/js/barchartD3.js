@@ -13,7 +13,7 @@ const render = (data) => {
     // sets xVal, yVal, and margin
     const xVal = d => d['Frequency']; // assignment w/ function
     const yVal = d => d['Symbol']; 
-    const margin = { top: 75, right: 40, bottom: 20, left: 75}
+    const margin = { top: 75, right: 40, bottom: 20, left: 75};
 
     // sets the inner height &  Width - W/H for group element
     const innerWidth = width - margin['left'] - margin['right'];
@@ -58,7 +58,7 @@ const render = (data) => {
 }
 
 // Reading in the dataset
-d3.csv('csv/WoF_unigram_ordered.csv').then((data) => {
+d3.csv('../csv/unigram_ordered_bar.csv').then((data) => {
     // Function converting 'Frequency' column from 'str' to 'float'
     data.forEach(d => {d['Frequency'] = +d['Frequency'] });
 
