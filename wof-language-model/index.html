@@ -59,25 +59,25 @@
 						<textarea data-template>
 							<h2 id="Abstract">Abstract</h2>
 							<p>
-								For this project, we set out to create a model that describes solving Wheel of 
-								Fortune Bonus Round Puzzles using NLP methods. Wheel of Fortune is a game show 
-								that resembles Hangman - in that you have to guess letters in order to solve 
-								puzzles. The goal of the project was to implement the model in the form of a 
-								neural network. Python (including the NLTK module) was used to conduct the 
-								analysis - and model building. Various web technologies (including HTML, CSS, 
-								Javascript, D3) were used to build the visualizations. Ultimately, we were unable to 
-								produce a working model due to time constraints. I'll describe the process, why it 
-								failed -- and overall, why NLP is difficult.
+								For this project, we set out to model Wheel of Fortune - specifically the WoF's bonus 
+								round using NLP. Wheel of Fortune is a game show that resembles Hangman - in that you 
+								have to guess letters in order to solve puzzles. The goal of the project was to come 
+								up with a model that could guess letters that could solve puzzles optimally - 
+								implementation would be in the form of a neural network. Python was used to conduct the 
+								analysis - and model building. The web stack (HTML, CSS, Javascript, SVG) was used to build 
+								the visualizations. Unfortunately, we were unable to produce a working model due to time 
+								constraints. I'll describe the process, some obstacles faced -- and overall, why NLP is 
+								difficult.
 							</p>
 
 							<h3 id="keywords">Guiding the Conversation -- Important Keywords</h3>
 							<p>
-								Below are important and relevant keywords that I believe will help shape the conversation. 
-								I throw them at you now but I will define (and explain) them as they come up:
+								Below are some relevant keywords that I believe will help shape the conversation. 
+								I throw them at you now but they'll be explained as they come up:
 							</p>
 
 							```sh
-								entropy, n-grams, unigrams, bigrams, trigrams, language models, POS-tagging, ergodic, stationary, Hidden Markov Model
+							Language Models, n-grams, Unigrams, Bigrams, Trigrams, Ergodic, Stationary, Entropy, POS-Tagging, Hidden Markov Model
 							```
 						</textarea>
 					</section>
@@ -309,7 +309,7 @@
 					<!-- Sub Slide 3: Defining Unigrams -->
 					<section data-markdown>
 						<textarea data-template>
-							<h3>Defining: $1 \text{st}$ - Order ($n = 1$) Approximations of English Text</h3>
+							<h3>Defining: $1 \text{st}$ - Order ($n = 1$) Approx. of English Text</h3>
 						
 							$1$st - Order Approximations of English Text are also called Unigrams. 
 							Unigrams are a specific case of Shannon's language model.
@@ -324,24 +324,53 @@
 						</textarea>
 					</section>
 
-					<!-- Tester slide 2 -->
+					<!-- Sub Slide 4: Visualizing Unigrams -->
 					<section class="fig-container"
 							data-fig-id="fig-barchart"
 							data-file="barchartD3.html"
 							data-transitions="2">
 						<h2>Visualizing Unigrams</h2>
 
-						
+						By visualizing Unigrams, we are able to confirm the most frequent characters --
+						<code>EATION</code> and <code>whitespace</code>. Is this enough to optimally predict letters? Not Really.
+						<aside class="notes">
+							Letter Frequency is still not enough to optimally predict letters. We need to consider more.
+						</aside>
 					</section>
 
-					<!-- Tester slide 2 -->
+					<!-- Sub Slide 5: Defining Bigrams -->
+					<section data-markdown>
+						<textarea data-template>
+							<h3>Defining: $2 \text{nd}$ - Order ($n = 2$) Approx. of English Text</h3>
+						
+							$2$nd - Order Approximations of English Text are also called Bigrams. 
+							Bigrams are also a specific case of Shannon's language model - this time 
+							considering conditional probabilities. 
+							
+							<h5>Properties:</h5>
+
+							* The frequency of the characters in a sequence match the frequency of 
+							characters in English Text, just like $1$-st order approximations (unigrams). 
+							* The characters in a sequence are **NOT** independent. The next character in 
+							the sequence depends on the previous character: $$P(W_n | W_{n-1})$$	
+	
+						</textarea>
+					</section>
+
+					<!-- Sub Slide 6: Visualizing Bigrams -->
 					<section class="fig-container"
 							data-fig-id="fig-barchart"
 							data-file="barchartD3.html"
 							data-transitions="2">
-						<h2>d3.js plugin for reveal.js</h2>
+						<h2>Visualizing Bigrams</h2>
 
-						Press right arrow to trigger transitions and left arrow to invert transition.
+						By visualizing Bigrams, we are able to confirm the most frequent characters --
+						<code>EATION</code>, <code></code>, <code>whitespace</code>. Is this enough to 
+						optimally predict letters? Nope, still not enough.
+						<aside class="notes">
+							Bigram Frequency is a step of from Unigram Frequency but it's still not enough
+							to optimally predict letters. We need to consider even more.
+						</aside>
 					</section>
 
 					<!-- Sub Slide 6: Unigram Visualization -->
