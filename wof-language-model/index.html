@@ -33,6 +33,7 @@
 				}
 			};
 		</script>
+
 		<script type="text/javascript" id="MathJax-script" async
 			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
 		</script>
@@ -100,59 +101,25 @@
 					<!-- Getting Started  -->
 					<section data-markdown>
 						<textarea data-template>
-							<h2 href="#Introduction">Getting Started</h2>
+							<h3>How does it work - Wheel of Fortune Bonus Round?</h3>
+
+							The player is given a puzzle to solve and is provided all instances of 
+							these six letters - `RSTLNE`. The player provides three more consonants 
+							(four if they have the Wild Card) and one more vowel. Once all instances 
+							of the guessed letters appear, the player tries to solve the puzzle.
+
+							<h3>What's our goal?</h3>
+							
+							Our goal is to come up with a model for guessing optimal letters to solve puzzles. 
+
+							<h3>So, where do we start?</h3>
+							
+							The first thing we could do is get counts of stuff from the text. By doing so,
+							we might be able to discern some structure within in text.
 
 							<!-- Speaker Notes -->
 							<aside class="notes">
-								<b>1st Note:</b> So how do we actually get started with exploring text data? 
-								Turns out that Claude Shannon - the father of Information Theory, for which all 
-								Stat NLP tasks are based - asked a similar question. Through his work - Mathematical 
-								Theory of Communications (1948) - we learn how to create a description (or model) of language.
-								<br> 
-								<b>2nd Note:</b> It's the first thing Shannon did when forming his model.
-								<br>
-								<b>3rd Note:</b> <i>This is said after listing questions</i> - "We'll answer them as we go along". 
-							</aside>
-							
-							The first thing we should do is count the characters (or words) in the text.
-							It turns out there are many questions you can answer about the structure of 
-							language simply by developing counts for the characters in the text. 
-							The following are some of them:
-							
-							* Length of the text in terms of word count? In terms of character count?
-							* How many different types of words — or letters — appear in the text?
-							* The frequency of those unique tokens (words, letters)?
-							* The most common letters?
-							* The most common words?
-						</textarea>
-					</section>
-
-					<!-- Packages  -->
-					<section data-markdown>
-						<textarea data-template>
-							<h2 id= "Packages">Packages</h2>
-
-							List of `python` imports used for this analysis
-							
-							
-							```python
-							# Package Imports being used to make things happen
-							import numpy as np
-							import pandas as pd
-							import matplotlib.pyplot as plt
-							import seaborn as sns
-							import string
-							from os import listdir
-							from os.path import isfile, join
-							
-							# Special methods/'magic' functions for the visualizations
-							sns.set()
-							%matplotlib inline
-							```
-							<!-- Speaker Notes -->
-							<aside class="notes">
-								But before we move forward, here's the list of `python` 
-								imports used for this analysis.
+								Answer the questions.
 							</aside>
 						</textarea>
 					</section>
@@ -160,15 +127,14 @@
 
 				<!-- Text Exploration Slide -->
 				<section>
-					<!-- Text Exploration Slide -->
+					<!-- Section Slide -->
 					<section data-markdown>
 						<textarea data-template>
 							<h2 id="EDA">Exploring our Text</h2>
 
 							<!-- Speaker Notes -->
 							<aside class="notes">
-								From here on out we explore our data. We can start by answering the questions
-								we posed in the previous slides.  
+
 							</aside>
 						</textarea>
 					</section>
@@ -176,7 +142,7 @@
 					<!-- Question - Character Length -->
 					<section data-markdown>
 						<textarea data-template>
-							<h3 id="text-length">What's the text length - in characters?</h3>
+							<h3 id="text-length">What's the character length of the text - How Big is it?</h3>
 
 							The feature we're interested in - the `PUZZLE` column:
 							<!-- code -->
@@ -217,17 +183,7 @@
 
 							<!-- Speaker Notes -->
 							<aside class="notes">
-								<b>1st Note:</b> What's the first question we might want to answer? - <i>"What's the 
-								character length of our text?"</i>
-								<br>
-								<b>2nd Note:</b> So, what we're interested in is the `PUZZLE` column.
-								<br>
-								<b>3rd Note:</b> Here, are the first 10 elements
-								<br>
-								<b>4th Note:</b> We're going to have to take the `PUZZLE` column and convert it to a string 
-								(sequence of characters) using the `.join()` method for strings. 
-								<br>
-								<b>5th Note:</b> We can now use the `len()` function to find the length of our string - which is 33099 characters.
+								
 							</aside>
 						</textarea>
 					</section>
@@ -235,15 +191,15 @@
 					<!-- Question - Unique Characters -->
 					<section data-markdown>
 						<textarea data-template>
-							<h3 id="unique-letters">What are the unique letters (and symbols) in our text?</h3>
+							<h3 id="unique-letters">What unique letters appear in our text - and how many?</h3>
 							
-							Finding the unique symbols - using `np.unique()`:
+							Finds the unique characters - using `np.unique()`:
 							<!-- code -->
 							```python
 							# Creates an array containing each character in the corpus
 							corpus_index = np.array([char for char in corpus])
 							
-							# Finds/Returns an array of unique values
+							# Finds/Returns an array of unique values and the size
 							corpus_index = np.unique(corpus_index)
 							print('Unique Characters:\n\n',corpus_index)
 							print('\nAmount of Unique Characters:',corpus_index.size)
@@ -261,17 +217,10 @@
 							```
 							
 							<aside class="notes">
-								<b>1st Note:</b> Let's consider the next question - How many different types of letters (or symbols) 
-								appear in the text?
+								1 - The code finds the unique characters and how many.
+								2 - We expected all 26 letters of the alphabet to be used - good to see we're correct.
 								<br>
-								<b>2nd Note:</b> We expect this `corpus` to have all 26 letters of the alphabet in varying frequency. 
-								However, it's always good to check. First, we'll convert our list into a numpy array 
-								and use its `.unique()` method.
-								<br>
-								<b>3rd Note:</b> Just as we suspected; All 26 letters of the english alphabet appear as unique characters.  
-								We also have additional characters that we did not expect. The additional characters are mostly punctuation 
-								and whitespace, but we'll keep them for now since we don't know yet the significance of the punctuation/whitespace. 
-								Additionally, punctuation/whitespace is a significant part of English, so their value cannot be understated.		
+								3 - We also have whitespace and punctuation - which are also important. More on this later.
 							</aside>
 						</textarea>
 					</section>
@@ -279,8 +228,7 @@
 					<!-- Question - Letter Frequency -->
 					<section data-markdown>
 						<textarea data-template>
-							<h3 id="letter-frequency">Letter Frequency - an important question?</h3>
-							<!-- code -->
+							<h3 id="letter-frequency">What about Letter Frequency? Is it an important question?</h3>
 
 							Counter using a dictionary:
 							
@@ -302,32 +250,123 @@
 							```python
 							{' ': 3171, '&': 18, "'": 41, '-': 65, '?': 1, 'A': 2490, 'B': 1072, 'C': 988, 'D': 1038, 'E': 2258, 'F': 926, 'G': 1308, 'H': 1393, 'I': 2396, 'J': 212, 'K': 722, 'L': 1086, 'M': 656, 'N': 1406, 'O': 2834, 'P': 1033, 'Q': 116, 'R': 1514, 'S': 1097, 'T': 1472, 'U': 1346, 'V': 492, 'W': 767, 'X': 117, 'Y': 926, 'Z': 138}
 							```
-							  
+							
+							`EATOIN` and `whitespace` are the most frequent characters. 
+							This is close to the actual distribution of characters in English text. 
+							We'll explain the significance later.
+
 							<aside class="notes">
-								<b>1st Note:</b> Based on our results, looks like the letters `EAIOTR` (in no particular order) 
-								appear the most in our corpus.
-								<br>
-								<b>2nd Note:</b> This matches closely to the true frequency of letters in English text.
-								<br>
-								<b>3rd Note:</b> Whitespace also appears a lot. This makes sense since in most cases 
-								since whitespace indicates the beginning/end of a word.
+								We'll hold off on the second question until after this slide.
 							</aside>
 						</textarea>
 					</section>
 
-					<!-- Answering why Letter Frequency is important -->
+					<!-- Answering if Letter Frequency is important -->
 					<section data-markdown>
 						<textarea data-template>
-							<h3>So, what's so important about letter frequency?</h3> 
+							<h3>Is letter frequency important? 🤔🤔 - Yessss!! 😤😤</h3> 
 
-							* By answering this question, we start to describe what Shannon calls a unigram.
+							* By answering this question, we start to describe what [Claude Shannon](https://en.wikipedia.org/wiki/Claude_Shannon) 
+							(the math guy who developed this stuff) calls n-grams.
 
 							<aside class="notes">
-								<b>1st Note:</b> So why is this question important?
-								<br>
-								<b>2nd Note:</b> By answering this question, we start describing what 
-								Shannon calls a unigram.
+								By answering this question, we start describing what 
+								Claude Shannon calls n-grams.
 							</aside>
+						</textarea>
+					</section>
+				</section>
+
+				<!-- N-grams - Letter Frequency -->
+				<section>
+					<!-- Sub Slide 1: Posing the Question -->
+					<section data-markdown>
+						<textarea data-template>
+							<h2>So, what're $n$-grams?</h2>
+						</textarea>
+					</section>
+
+					<!-- Sub Slide 2: Defining Language Model & n-grams -->
+					<section data-markdown>
+						<textarea data-template>
+							<h3><a href="http://people.seas.harvard.edu/~jones/cscie129/nu_lectures/lecture2/info%20theory/Info_Theory_5.html">Defining: $n$th - Order Approximations of English Text</a></h3>
+							
+							$n$-grams are language models [Shannon](https://en.wikipedia.org/wiki/Claude_Shannon) created to approximate
+							English text -- with the original purpose of efficient transmission (in Electrical Communication systems)
+							and code breaking. 
+							
+							<h5>Description:</h5>
+
+							* $n$ represents the order of approximation, with $n \geq 0$
+							* Each increase in order gets use closer to representing English text
+							* Shannon posed the question: given a sequence of letters, 
+							what is the likelihood of the next letter?
+
+							We'll cover $n = 1, 2, 3,...$-gram cases (and answer Shannon's question) in the following slides. 
+						</textarea>
+					</section>
+
+					<!-- Sub Slide 3: Defining Unigrams -->
+					<section data-markdown>
+						<textarea data-template>
+							<h3>Defining: $1 \text{st}$ - Order ($n = 1$) Approximations of English Text</h3>
+						
+							$1$st - Order Approximations of English Text are also called Unigrams. 
+							Unigrams are a specific case of Shannon's language model.
+							
+							<h5>Properties:</h5>
+
+							* The frequency of the characters in a sequence match the frequency of 
+							characters in English Text 
+							* The characters in the sequence are independent from each other. The next
+							character in the sequence **DOES NOT** depend on the previous characters.
+	
+						</textarea>
+					</section>
+
+					<!-- Tester slide 2 -->
+					<section class="fig-container"
+							data-fig-id="fig-barchart"
+							data-file="barchartD3.html"
+							data-transitions="2">
+						<h2>Visualizing Unigrams</h2>
+
+						
+					</section>
+
+					<!-- Tester slide 2 -->
+					<section class="fig-container"
+							data-fig-id="fig-barchart"
+							data-file="barchartD3.html"
+							data-transitions="2">
+						<h2>d3.js plugin for reveal.js</h2>
+
+						Press right arrow to trigger transitions and left arrow to invert transition.
+					</section>
+
+					<!-- Sub Slide 6: Unigram Visualization -->
+					<section data-markdown>
+						<textarea data-template>
+							<h3>Visualizing Unigrams - The Code</h3>
+
+							```python
+							# Separating the key/value pairs of our dictionary
+							letters = list(letter_counter.keys())
+							frequency = list(letter_counter.values())
+							
+							# Creating a dataframe called WoF_Letter_dist
+							wof_unigram_dist = pd.DataFrame.from_dict({'Symbol': letters,'Frequency': frequency})
+
+							# Sorts dataframe before plotting
+							wof_unigram_dist = wof_unigram_dist.sort_values(by= ['Frequency'], ascending= False)
+
+							# Exports to CSV
+							filepath = '/Users/Chris/Desktop/WoF Final Round Puzzles/WoF_unigram_ordered.csv'
+							exportTable(filepath, wof_unigram_dist)
+
+							# Plotting the distribution
+							sns.barplot(wof_unigram_dist['Symbol'], wof_unigram_dist['Frequency']/len(corpus))
+							```
 						</textarea>
 					</section>
 				</section>
@@ -337,7 +376,7 @@
 					<!-- Sub Slide 1: Defining Language Model & Unigrams -->
 					<section data-markdown>
 						<textarea data-template>
-							<h2>unigrams?</h2>
+							<h2>unigrams</h2>
 
 							[Shannon](https://en.wikipedia.org/wiki/Claude_Shannon) created language models that could be used to approximate
 							English text with the purpose of improving Electrical Communications. By finding the frequency distributed over all symbols - 'aka' 
@@ -389,7 +428,6 @@
 
 						Press right arrow to trigger transitions and left arrow to invert transition.
 					</section>
-
 				</section>
 			</div>
 		</div>
@@ -409,7 +447,8 @@
 					{ src: 'plugin/highlight/highlight.js', async: true },
 					{ src: 'https://d3js.org/d3.v4.min.js' },
 					{ src: 'plugin/d3js/d3js.js' },
-					{ src: 'plugin/menu/menu.js' }
+					{ src: 'plugin/menu/menu.js' },
+					{ src: 'plugin/math/math.js', async: true }
 				]
 			});
 		</script>		
