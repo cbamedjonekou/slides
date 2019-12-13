@@ -47,13 +47,17 @@
 		<div class="reveal">
 			<div class="slides">
 
-				<!-- Cover Slide and TOC -->
-				<section>
-					<section><h1>Language Modeling w/ WoF</h1></section>
-				</section>
-
 				<!-- Introductions -->
 				<section>
+					<!-- Cover Slide and TOC -->
+					<section>
+						<h1>Cracking WoF</h1>
+						<h3>christ-brian amedjonekou</h3>
+						<h3>MAT 4901-D688</h3>
+						<h3>LEC (32925)</h3>
+						
+					</section>
+
 					<!-- Abstract Slide -->
 					<section data-markdown>
 						<textarea data-template>
@@ -63,8 +67,8 @@
 								round using NLP. Wheel of Fortune is a game show that resembles Hangman - in that you 
 								have to guess letters in order to solve puzzles. The goal of the project was to come 
 								up with a model that could guess letters that could solve puzzles optimally - 
-								implementation would be in the form of a neural network. Python was used to conduct the 
-								analysis - and model building. The web stack (HTML, CSS, Javascript, SVG) was used to build 
+								implementation would be in the form of a neural network. Python is the tool of choice to conduct the 
+								analysis - and model building. The web stack (HTML, CSS, Javascript, plot.ly) is responsible for
 								the visualizations. Unfortunately, we were unable to produce a working model due to time 
 								constraints. I'll describe the process, some obstacles faced -- and overall, why NLP is 
 								difficult.
@@ -77,7 +81,7 @@
 							</p>
 
 							```sh
-							Language Models, n-grams, Unigrams, Bigrams, Trigrams, Ergodic, Stationary, Entropy, POS-Tagging, Hidden Markov Model
+												Language Models, n-grams, Unigrams, Bigrams, Trigrams, POS-Tagging
 							```
 						</textarea>
 					</section>
@@ -406,64 +410,100 @@
 							to optimally predict letters. We need to consider even more.
 						</aside>
 					</section>
+
+					<!-- Sub Slide 7: Revisiting n-grams -->
+					<section data-markdown>
+						<textarea data-template>
+							<h3>Revisiting: $n \text{th}$ - Order Word Approx. of English Text</h3>
+						
+							Just like with letters, we can apply Shannon's models to words. Applying these
+							language models to words can help generate better results versus language models
+							applied to characters. An just like with letters, a higher order language model 
+							does significantly better than the previous order model. 
+	
+						</textarea>
+					</section>
+
+					<!-- Sub Slide 8: Visualizing Unigrams -->
+					<section>
+						<h2>Visualizing Unigrams again - (context: Words)</h2>
+						
+						<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://cbamedjonekou.github.io/slides/wof-language-model/html/word_unigram_ordered.html" height="400" width="100%"></iframe>
+
+						<br>
+						Through the visualization, we are able to confirm the most frequent words --
+						<code>AND</code>, <code>A</code>, <code>IT</code>. Language models applied
+						to words are a big step up, it's still not enough.
+						<aside class="notes">
+							Same as
+						</aside>
+					</section>
 				</section>
 
-				<!-- Unigram - Letter Frequency -->
+				<!-- POS Tagging -->
 				<section>
-					<!-- Sub Slide 1: Defining Language Model & Unigrams -->
+					<!-- Sub Slide 1: Intro slide -->
 					<section data-markdown>
 						<textarea data-template>
-							<h2>unigrams</h2>
-
-							[Shannon](https://en.wikipedia.org/wiki/Claude_Shannon) created language models that could be used to approximate
-							English text with the purpose of improving Electrical Communications. By finding the frequency distributed over all symbols - 'aka' 
-							their frequency distribution - we come out with a Unigram language model. For unigrams, we consider the letters 
-							to be independent from each other. We also call unigrams [First-Order Approximations of English text](http://people.seas.harvard.edu/~jones/cscie129/nu_lectures/lecture2/info%20theory/Info_Theory_5.html).
+							<h2>POS Tagging - Grammar</h2>
 						</textarea>
 					</section>
 
-					<!-- Sub Slide 2: Visualizing Unigrams -->
+					<!-- Sub Slide 2: Defining Language Model & Unigrams -->
 					<section data-markdown>
 						<textarea data-template>
-							<h3>Visualizing our Unigram Language Model</h3>
+							<h3>What's POS-Tagging? Why POS-Tagging?</h3>
 
-							```python
-							# Separating the key/value pairs of our dictionary
-							letters = list(letter_counter.keys())
-							frequency = list(letter_counter.values())
-							
-							# Creating a dataframe called WoF_Letter_dist
-							wof_unigram_dist = pd.DataFrame.from_dict({'Symbol': letters,'Frequency': frequency})
-
-							# Sorts dataframe before plotting
-							wof_unigram_dist = wof_unigram_dist.sort_values(by= ['Frequency'], ascending= False)
-
-							# Exports to CSV
-							filepath = '/Users/Chris/Desktop/WoF Final Round Puzzles/WoF_unigram_ordered.csv'
-							exportTable(filepath, wof_unigram_dist)
-
-							# Plotting the distribution
-							sns.barplot(wof_unigram_dist['Symbol'], wof_unigram_dist['Frequency']/len(corpus))
-							```
-
+							POS stands for Parts of Speech. The intent of POS Tagging is to markup 
+							— done either automatically, or manually — text in order to make finding 
+							structure of the language easier. The tags (or tagging) corresponds to grammar
+							rules, and structures. POS Tagging is just another step one takes when analyzing text.
 						</textarea>
 					</section>
 
-					<!-- Tester slide 1 -->
-					<section data-markdown>
-						<script type="text/template">
-							<!-- .element: class="fig-container" data-fig-id="fig-barchart" data-file="html/barchartD3.html"-->
-						</script>
+					<!-- Sub slide 3: Obstacles -->
+					<section>
+						<h3>Obstacles with POS Tagging - NLP in general</h3>
+
+						<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://cbamedjonekou.github.io/slides/wof-language-model/html/POS-tagging-compare.html" height="400" width="100%"></iframe>
+						<br>
+
+						One of the major obstacles we faced occurred at this stage, when we attempted to tag the POS on the text.
+						We have two cases displayed on the chart - red (where the text is all lowercase), and blue 
+						(where we have words that begin with a capital letter). Switching case caused massive differences between
+						Parts of Speech designations.  
 					</section>
 
-					<!-- Tester slide 2 -->
-					<section class="fig-container"
-							data-fig-id="fig-barchart"
-							data-file="html/barchartD3.html"
-							data-transitions="2">
-						<h2>d3.js plugin for reveal.js</h2>
+					<!-- Sub slide 4: Reasons for obstacles -->
+					<section >
+						<h2>Reason's as why this happened</h2>
+						
+						We assumed the reason for this behavior could ultimately be attributed lack of data. The collection of
+						text we worked with were short phrases independent from each other. In the case of language, having very 
+						large corpora with long lines of text that held a relationship across multiple sequences.
+					</section>
+				</section>
 
-						Press right arrow to trigger transitions and left arrow to invert transition.
+				<!-- Finishing things up -->
+				<section>
+					<!-- Cover slide -->
+					<section>
+						<h2>Finishing Things Up</h2>
+					</section>
+
+					<!-- For the Future -->
+					<section data-markdown>
+						<textarea data-template>
+						<h5>A thought for the future:</h5>
+						If we were to continue investigate this problem in the future, a good
+						place we'd like to start would be with the following equation: 
+						$$\frac{1}{\text{# of words}} \sum_{\text{words}} \frac{\text{# missed letters}}{\text{# letters}}$$
+
+						where the numerator could be the [Hamming Distance](https://en.wikipedia.org/wiki/Hamming_distance)
+						or the [Levenshtein Distance](https://en.wikipedia.org/wiki/Levenshtein_distance) - both of which 
+						measures the minimum number of substitutions required to change one string into the other. The equation 
+						could be the cost function we'd need to implement the model via neural net.
+						</textarea>
 					</section>
 				</section>
 			</div>
